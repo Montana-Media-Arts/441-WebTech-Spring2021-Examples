@@ -1,7 +1,7 @@
 var scene = new THREE.Scene();
 var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 var cube, cube2;
-
+var modelObject;
 // create the first box
 function createBox() {
   // create a box
@@ -140,13 +140,21 @@ function getControls(camera, renderer) {
  **/
 
 function loadModel() {
-  var loader = new THREE.OBJLoader();
+  loader = new THREE.OBJLoader();
   loader.load('models/Skull.obj', function (object) {
     object.rotation.z = Math.PI;
+    modelObject = object;
     scene.add(object);
-    
+    animateModel();
   });
 }
+
+function animateModel() {
+  requestAnimationFrame(animateModel);
+  modelObject.rotation.x += 0.05;
+  modelObject.rotation.y += 0.05;
+}
+
 
 /**
  * Render!
@@ -164,6 +172,7 @@ var light = getLight(scene);
 var renderer = getRenderer();
 var controls = getControls(camera, renderer);
 var game1 = createBox();
+
 
 loadModel()
 
